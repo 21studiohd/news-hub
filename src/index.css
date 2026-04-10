@@ -1,96 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 40 20% 97%;
+    --foreground: 0 0% 8%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 40 25% 98%;
+    --card-foreground: 0 0% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 0 0% 8%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 0 0% 8%;
+    --primary-foreground: 40 20% 97%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 40 15% 93%;
+    --secondary-foreground: 0 0% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 40 10% 94%;
+    --muted-foreground: 0 0% 40%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 0 72% 51%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 40 10% 88%;
+    --input: 40 10% 88%;
+    --ring: 0 0% 8%;
 
-    --radius: 0.5rem;
+    --radius: 0.375rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 25%;
+    --sidebar-primary: 0 0% 8%;
     --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 40 15% 95%;
+    --sidebar-accent-foreground: 0 0% 15%;
+    --sidebar-border: 40 10% 90%;
+    --sidebar-ring: 0 72% 51%;
 
-    --sidebar-accent: 240 4.8% 95.9%;
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
 
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --breaking: 0 72% 51%;
+    --breaking-foreground: 0 0% 100%;
+    --category-politics: 220 70% 50%;
+    --category-tech: 262 60% 50%;
+    --category-lifestyle: 340 65% 55%;
+    --category-business: 145 55% 40%;
+    --category-opinion: 30 80% 50%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
+    --background: 0 0% 6%;
+    --foreground: 40 15% 92%;
+    --card: 0 0% 9%;
+    --card-foreground: 40 15% 92%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 40 15% 92%;
+    --primary: 40 15% 92%;
+    --primary-foreground: 0 0% 6%;
+    --secondary: 0 0% 14%;
+    --secondary-foreground: 40 15% 88%;
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 0 72% 55%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 40 15% 80%;
+    --sidebar-background: 0 0% 8%;
+    --sidebar-foreground: 40 10% 85%;
+    --sidebar-primary: 0 72% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 40 10% 85%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 0 72% 55%;
   }
 }
 
@@ -100,6 +95,71 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+  }
+}
+
+@layer components {
+  .article-body {
+    @apply text-foreground leading-relaxed;
+    font-family: var(--font-sans);
+  }
+  .article-body p {
+    @apply mb-4 text-base md:text-lg;
+  }
+  .article-body h2 {
+    @apply text-2xl md:text-3xl font-bold mt-8 mb-4;
+    font-family: var(--font-serif);
+  }
+  .article-body blockquote {
+    @apply border-l-4 border-accent pl-4 italic my-6 text-muted-foreground;
+  }
+  .article-body ul {
+    @apply list-disc pl-6 mb-4 space-y-1;
+  }
+  .article-body img {
+    @apply rounded-md my-6 w-full;
+  }
+
+  .breaking-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider rounded;
+    background: hsl(var(--breaking));
+    color: hsl(var(--breaking-foreground));
+    animation: pulse-badge 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-badge {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+
+  .tiptap-editor .ProseMirror {
+    @apply min-h-[300px] p-4 outline-none;
+    font-family: var(--font-sans);
+  }
+  .tiptap-editor .ProseMirror p.is-editor-empty:first-child::before {
+    @apply text-muted-foreground pointer-events-none float-left h-0;
+    content: attr(data-placeholder);
+  }
+  .tiptap-editor .ProseMirror h1 {
+    @apply text-3xl font-bold mb-4;
+    font-family: var(--font-serif);
+  }
+  .tiptap-editor .ProseMirror h2 {
+    @apply text-2xl font-bold mb-3;
+    font-family: var(--font-serif);
+  }
+  .tiptap-editor .ProseMirror ul {
+    @apply list-disc pl-6 mb-4;
+  }
+  .tiptap-editor .ProseMirror ol {
+    @apply list-decimal pl-6 mb-4;
+  }
+  .tiptap-editor .ProseMirror img {
+    @apply rounded-md my-4 max-w-full;
   }
 }
