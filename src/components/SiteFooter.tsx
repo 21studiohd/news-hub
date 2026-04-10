@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { categories } from "@/data/mock-data";
+import logo from "@/assets/logo.png";
 
 export function SiteFooter() {
   return (
@@ -8,15 +9,14 @@ export function SiteFooter() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1">
             <Link to="/" className="flex items-center gap-1 mb-4">
-              <span className="font-serif text-xl font-bold">The Daily</span>
-              <span className="font-serif text-xl font-bold opacity-70">Wire</span>
+              <img src={logo} alt="Tetova 1" className="h-8 w-auto brightness-0 invert" />
             </Link>
             <p className="text-sm opacity-70 leading-relaxed">
-              Delivering trusted journalism since 2024. Independent, fearless, and always accurate.
+              Duke sjellë gazetari të besueshme që nga 2024. Të pavarur, të guximshëm, dhe gjithmonë të saktë.
             </p>
           </div>
           <div>
-            <h4 className="font-serif font-bold mb-3 text-sm">Sections</h4>
+            <h4 className="font-serif font-bold mb-3 text-sm">Seksionet</h4>
             <ul className="space-y-2">
               {categories.map((cat) => (
                 <li key={cat.value}>
@@ -28,25 +28,25 @@ export function SiteFooter() {
             </ul>
           </div>
           <div>
-            <h4 className="font-serif font-bold mb-3 text-sm">Company</h4>
+            <h4 className="font-serif font-bold mb-3 text-sm">Kompania</h4>
             <ul className="space-y-2 text-sm opacity-70">
-              <li>About Us</li>
-              <li>Careers</li>
-              <li>Contact</li>
-              <li>Advertise</li>
+              <li>Rreth Nesh</li>
+              <li>Karriera</li>
+              <li>Kontakt</li>
+              <li>Reklamo</li>
             </ul>
           </div>
           <div>
-            <h4 className="font-serif font-bold mb-3 text-sm">Legal</h4>
+            <h4 className="font-serif font-bold mb-3 text-sm">Ligjore</h4>
             <ul className="space-y-2 text-sm opacity-70">
-              <li>Privacy Policy</li>
-              <li>Terms of Service</li>
-              <li>Cookie Policy</li>
+              <li>Politika e Privatësisë</li>
+              <li>Kushtet e Shërbimit</li>
+              <li>Politika e Cookies</li>
             </ul>
           </div>
         </div>
         <div className="border-t border-primary-foreground/20 mt-8 pt-6 text-center text-xs opacity-50">
-          © 2026 The Daily Wire. All rights reserved.
+          © 2026 Tetova 1. Të gjitha të drejtat e rezervuara.
         </div>
       </div>
     </footer>

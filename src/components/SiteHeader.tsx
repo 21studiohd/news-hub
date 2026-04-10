@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import logo from "@/assets/logo.png";
 
 export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -23,7 +24,7 @@ export function SiteHeader() {
       {/* Breaking news ticker */}
       <div className="bg-primary text-primary-foreground text-xs py-1.5 text-center font-medium tracking-wide">
         <span className="breaking-badge mr-2">LIVE</span>
-        Global Climate Summit reaches landmark agreement — Full coverage →
+        Samiti Global i Klimës arrin marrëveshje historike — Mbulimi i plotë →
       </div>
 
       <div className="container flex h-14 items-center justify-between gap-4">
@@ -31,17 +32,14 @@ export function SiteHeader() {
         <button
           className="md:hidden p-2 -ml-2"
           onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
+          aria-label="Hap menunë"
         >
           {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
 
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-1 shrink-0">
-          <span className="font-serif text-xl md:text-2xl font-bold tracking-tight">
-            The Daily
-          </span>
-          <span className="text-accent font-serif text-xl md:text-2xl font-bold">Wire</span>
+        <Link to="/" className="flex items-center shrink-0">
+          <img src={logo} alt="Tetova 1" className="h-8 md:h-10 w-auto" />
         </Link>
 
         {/* Desktop nav */}
@@ -49,7 +47,7 @@ export function SiteHeader() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" className="text-sm font-medium">
-                Categories <ChevronDown className="ml-1 h-3.5 w-3.5" />
+                Kategoritë <ChevronDown className="ml-1 h-3.5 w-3.5" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
@@ -60,14 +58,14 @@ export function SiteHeader() {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Link to="/?category=politics" className="px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            Politics
+          <Link to="/?category=politike" className="px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            Politikë
           </Link>
-          <Link to="/?category=tech" className="px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            Tech
+          <Link to="/?category=teknologji" className="px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            Teknologji
           </Link>
-          <Link to="/?category=business" className="px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            Business
+          <Link to="/?category=biznes" className="px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            Biznes
           </Link>
         </nav>
 
@@ -80,7 +78,7 @@ export function SiteHeader() {
                 autoFocus
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search articles..."
+                placeholder="Kërko artikuj..."
                 className="bg-transparent border-0 outline-none px-2 py-1.5 text-sm w-32 md:w-48"
               />
               <button onClick={() => { setSearchOpen(false); setSearchQuery(""); }}>
@@ -88,18 +86,18 @@ export function SiteHeader() {
               </button>
             </div>
           ) : (
-            <button onClick={() => setSearchOpen(true)} className="p-2" aria-label="Search">
+            <button onClick={() => setSearchOpen(true)} className="p-2" aria-label="Kërko">
               <Search className="h-5 w-5" />
             </button>
           )}
 
           {isAuthenticated ? (
             <Link to="/admin">
-              <Button variant="outline" size="sm" className="text-xs">Dashboard</Button>
+              <Button variant="outline" size="sm" className="text-xs">Paneli</Button>
             </Link>
           ) : (
             <Link to="/admin/login">
-              <Button variant="ghost" size="sm" className="text-xs">Sign In</Button>
+              <Button variant="ghost" size="sm" className="text-xs">Hyr</Button>
             </Link>
           )}
         </div>
