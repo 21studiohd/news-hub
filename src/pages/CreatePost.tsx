@@ -3,6 +3,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { categories, Category } from "@/data/mock-data";
 import { RichTextEditor } from "@/components/RichTextEditor";
 import { SEOPreview } from "@/components/SEOPreview";
+import { MediaLibrary } from "@/components/MediaLibrary";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -39,42 +40,42 @@ const CreatePost = () => {
 
   const handleSave = () => {
     if (!title || !body) {
-      toast.error("Title and body are required.");
+      toast.error("Titulli dhe trupi janë të detyrueshëm.");
       return;
     }
-    toast.success("Article saved! (Mock — replace with Firebase)");
+    toast.success("Artikulli u ruajt! (Mock — zëvendëso me Firebase)");
   };
 
   return (
     <div className="max-w-4xl">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="font-serif text-2xl font-bold">Create Post</h1>
+        <h1 className="font-serif text-2xl font-bold">Krijo Postim</h1>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm"><Eye className="h-4 w-4 mr-1" /> Preview</Button>
-          <Button size="sm" onClick={handleSave}><Save className="h-4 w-4 mr-1" /> Publish</Button>
+          <Button variant="outline" size="sm"><Eye className="h-4 w-4 mr-1" /> Parashiko</Button>
+          <Button size="sm" onClick={handleSave}><Save className="h-4 w-4 mr-1" /> Publiko</Button>
         </div>
       </div>
 
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="title">Headline</Label>
-            <Input id="title" value={title} onChange={(e) => handleTitleChange(e.target.value)} placeholder="Enter headline..." className="font-serif text-lg" />
+            <Label htmlFor="title">Titulli</Label>
+            <Input id="title" value={title} onChange={(e) => handleTitleChange(e.target.value)} placeholder="Shkruaj titullin..." className="font-serif text-lg" />
           </div>
           <div>
             <Label htmlFor="slug">Slug</Label>
-            <Input id="slug" value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="article-slug" className="font-mono text-sm" />
+            <Input id="slug" value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="slug-i-artikullit" className="font-mono text-sm" />
           </div>
         </div>
 
         <div>
-          <Label htmlFor="excerpt">Excerpt</Label>
-          <Textarea id="excerpt" value={excerpt} onChange={(e) => setExcerpt(e.target.value)} placeholder="Brief summary..." rows={2} />
+          <Label htmlFor="excerpt">Përmbledhja</Label>
+          <Textarea id="excerpt" value={excerpt} onChange={(e) => setExcerpt(e.target.value)} placeholder="Përmbledhje e shkurtër..." rows={2} />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label>Category</Label>
+            <Label>Kategoria</Label>
             <Select value={category} onValueChange={(v) => setCategory(v as Category)}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
@@ -85,27 +86,39 @@ const CreatePost = () => {
             </Select>
           </div>
           <div>
-            <Label htmlFor="image">Featured Image URL</Label>
-            <Input id="image" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://images.unsplash.com/..." />
+            <Label htmlFor="image">Imazhi Kryesor</Label>
+            <div className="flex gap-2">
+              <Input id="image" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="URL ose zgjidh nga biblioteka..." className="flex-1" />
+              <MediaLibrary
+                onSelect={(url) => setImageUrl(url)}
+                triggerLabel="Biblioteka"
+              />
+            </div>
           </div>
         </div>
 
+        {imageUrl && (
+          <div className="rounded-lg overflow-hidden border max-w-sm">
+            <img src={imageUrl} alt="Parashikimi" className="w-full h-40 object-cover" />
+          </div>
+        )}
+
         <div>
-          <Label>Article Body</Label>
+          <Label>Trupi i Artikullit</Label>
           <RichTextEditor content={body} onChange={setBody} />
         </div>
 
         {/* SEO Section */}
         <div className="border-t pt-6">
-          <h2 className="font-serif text-lg font-bold mb-4">SEO Settings</h2>
+          <h2 className="font-serif text-lg font-bold mb-4">Cilësimet SEO</h2>
           <div className="grid grid-cols-1 gap-4 mb-4">
             <div>
-              <Label htmlFor="seoTitle">SEO Title</Label>
-              <Input id="seoTitle" value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} placeholder="SEO optimized title..." />
+              <Label htmlFor="seoTitle">Titulli SEO</Label>
+              <Input id="seoTitle" value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} placeholder="Titulli i optimizuar për SEO..." />
             </div>
             <div>
-              <Label htmlFor="seoDesc">Meta Description</Label>
-              <Textarea id="seoDesc" value={seoDescription} onChange={(e) => setSeoDescription(e.target.value)} placeholder="Meta description for search engines..." rows={2} />
+              <Label htmlFor="seoDesc">Meta Përshkrimi</Label>
+              <Textarea id="seoDesc" value={seoDescription} onChange={(e) => setSeoDescription(e.target.value)} placeholder="Përshkrimi meta për motorët e kërkimit..." rows={2} />
             </div>
           </div>
           <SEOPreview title={seoTitle || title} description={seoDescription || excerpt} slug={slug} />

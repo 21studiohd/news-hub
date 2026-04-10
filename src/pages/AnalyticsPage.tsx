@@ -7,15 +7,15 @@ const COLORS = ["hsl(220,70%,50%)", "hsl(262,60%,50%)", "hsl(340,65%,55%)", "hsl
 
 const AnalyticsPage = () => {
   const stats = [
-    { label: "Total Views", value: (mockAnalytics.totalViews / 1_000_000).toFixed(1) + "M", icon: Eye },
-    { label: "Articles", value: mockAnalytics.totalArticles, icon: FileText },
-    { label: "Team Members", value: mockAnalytics.totalUsers, icon: Users },
-    { label: "Avg. Growth", value: "+12.5%", icon: TrendingUp },
+    { label: "Shikimet Totale", value: (mockAnalytics.totalViews / 1_000_000).toFixed(1) + "M", icon: Eye },
+    { label: "Artikuj", value: mockAnalytics.totalArticles, icon: FileText },
+    { label: "Anëtarë Ekipi", value: mockAnalytics.totalUsers, icon: Users },
+    { label: "Rritja Mesatare", value: "+12.5%", icon: TrendingUp },
   ];
 
   return (
     <div>
-      <h1 className="font-serif text-2xl font-bold mb-6">Analytics Overview</h1>
+      <h1 className="font-serif text-2xl font-bold mb-6">Pasqyra e Analitikës</h1>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         {stats.map((s) => (
@@ -34,7 +34,7 @@ const AnalyticsPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle className="font-serif text-lg">Views This Week</CardTitle>
+            <CardTitle className="font-serif text-lg">Shikimet Këtë Javë</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -42,7 +42,7 @@ const AnalyticsPage = () => {
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis dataKey="date" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
-                <Tooltip formatter={(v: number) => `${(v / 1000).toFixed(0)}k views`} />
+                <Tooltip formatter={(v: number) => `${(v / 1000).toFixed(0)}k shikime`} />
                 <Bar dataKey="views" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -51,7 +51,7 @@ const AnalyticsPage = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle className="font-serif text-lg">By Category</CardTitle>
+            <CardTitle className="font-serif text-lg">Sipas Kategorisë</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={200}>
@@ -87,7 +87,7 @@ const AnalyticsPage = () => {
 
       <Card className="mt-6">
         <CardHeader>
-          <CardTitle className="font-serif text-lg">Top Articles</CardTitle>
+          <CardTitle className="font-serif text-lg">Artikujt Më Të Lexuar</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">

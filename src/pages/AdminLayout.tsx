@@ -14,14 +14,15 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { NavLink } from "@/components/NavLink";
-import { FileText, BarChart3, Users, PenSquare, LogOut, Home } from "lucide-react";
+import { FileText, BarChart3, Users, PenSquare, LogOut, Home, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const adminNav = [
-  { title: "Manage Posts", url: "/admin", icon: FileText },
-  { title: "Create Post", url: "/admin/create", icon: PenSquare },
-  { title: "Analytics", url: "/admin/analytics", icon: BarChart3 },
-  { title: "User Roles", url: "/admin/users", icon: Users },
+  { title: "Menaxho Postimet", url: "/admin", icon: FileText },
+  { title: "Krijo Postim", url: "/admin/create", icon: PenSquare },
+  { title: "Biblioteka Mediave", url: "/admin/media", icon: ImageIcon },
+  { title: "Analitika", url: "/admin/analytics", icon: BarChart3 },
+  { title: "Rolet e Përdoruesve", url: "/admin/users", icon: Users },
 ];
 
 function AdminSidebar() {
@@ -40,7 +41,7 @@ function AdminSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel>
             {!collapsed && (
-              <span className="font-serif font-bold text-sm">Newsroom</span>
+              <span className="font-serif font-bold text-sm">Redaksia</span>
             )}
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -71,14 +72,14 @@ function AdminSidebar() {
                 <SidebarMenuButton asChild>
                   <Link to="/" className="hover:bg-sidebar-accent/50">
                     <Home className="mr-2 h-4 w-4" />
-                    {!collapsed && <span>View Site</span>}
+                    {!collapsed && <span>Shiko Faqen</span>}
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton onClick={logout} className="hover:bg-sidebar-accent/50">
                   <LogOut className="mr-2 h-4 w-4" />
-                  {!collapsed && <span>Sign Out</span>}
+                  {!collapsed && <span>Dil</span>}
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -110,7 +111,7 @@ const AdminLayout = () => {
         <div className="flex-1 flex flex-col">
           <header className="h-12 flex items-center border-b px-4">
             <SidebarTrigger className="mr-4" />
-            <span className="font-serif font-bold text-sm">The Daily Wire — Admin</span>
+            <span className="font-serif font-bold text-sm">Tetova 1 — Paneli Administrativ</span>
           </header>
           <main className="flex-1 p-4 md:p-6 overflow-auto">
             <Outlet />

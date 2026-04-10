@@ -18,7 +18,7 @@ const AdminLogin = () => {
     if (login(email)) {
       navigate("/admin");
     } else {
-      setError("Invalid credentials. Try one of the demo accounts.");
+      setError("Kredencialet e pavlefshme. Provo njërin nga llogaritë demo.");
     }
   };
 
@@ -26,8 +26,8 @@ const AdminLogin = () => {
     <div className="min-h-screen flex items-center justify-center bg-secondary p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle className="font-serif text-2xl">Admin Sign In</CardTitle>
-          <CardDescription>Sign in to the newsroom dashboard</CardDescription>
+          <CardTitle className="font-serif text-2xl">Hyrje në Panel</CardTitle>
+          <CardDescription>Hyni në panelin e redaksisë</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -38,14 +38,14 @@ const AdminLogin = () => {
                 type="email"
                 value={email}
                 onChange={(e) => { setEmail(e.target.value); setError(""); }}
-                placeholder="Enter your email..."
+                placeholder="Shkruaj email-in tënd..."
               />
             </div>
             {error && <p className="text-sm text-destructive">{error}</p>}
-            <Button type="submit" className="w-full">Sign In</Button>
+            <Button type="submit" className="w-full">Hyr</Button>
           </form>
           <div className="mt-6 border-t pt-4">
-            <p className="text-xs text-muted-foreground mb-2">Demo accounts:</p>
+            <p className="text-xs text-muted-foreground mb-2">Llogaritë demo:</p>
             {mockUsers.map((u) => (
               <button
                 key={u.id}

@@ -3,6 +3,7 @@ import { mockArticles, categories, Category } from "@/data/mock-data";
 import { ArticleCard } from "@/components/ArticleCard";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { AdBanner } from "@/components/AdBanner";
 
 const Index = () => {
   const [searchParams] = useSearchParams();
@@ -26,7 +27,7 @@ const Index = () => {
                 <ArticleCard article={breakingArticles[0]} variant="hero" />
               </div>
               <div className="flex flex-col gap-0">
-            <h3 className="font-serif font-bold text-sm uppercase tracking-wider text-muted-foreground mb-2 px-1">
+                <h3 className="font-serif font-bold text-sm uppercase tracking-wider text-muted-foreground mb-2 px-1">
                   Lajmet Kryesore
                 </h3>
                 {mockArticles.slice(1, 5).map((a) => (
@@ -37,8 +38,13 @@ const Index = () => {
           </section>
         )}
 
+        {/* Ad Banner - Top */}
+        <div className="container mt-6">
+          <AdBanner slot="header" />
+        </div>
+
         {/* Category filter bar */}
-        <section className="container mt-8">
+        <section className="container mt-6">
           <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
             <a
               href="/"
@@ -63,15 +69,38 @@ const Index = () => {
         </section>
 
         {/* Article Grid */}
-        <section className="container mt-6 mb-12">
+        <section className="container mt-6 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {filteredArticles
               .filter((a) => activeCategory || !a.isBreaking)
+              .slice(0, 3)
               .map((article) => (
                 <ArticleCard key={article.id} article={article} />
               ))}
           </div>
         </section>
+
+        {/* Ad Banner - Mid */}
+        <div className="container mb-6">
+          <AdBanner slot="in-article" />
+        </div>
+
+        {/* More articles */}
+        <section className="container mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {filteredArticles
+              .filter((a) => activeCategory || !a.isBreaking)
+              .slice(3)
+              .map((article) => (
+                <ArticleCard key={article.id} article={article} />
+              ))}
+          </div>
+        </section>
+
+        {/* Ad Banner - Bottom */}
+        <div className="container mb-8">
+          <AdBanner slot="footer" />
+        </div>
       </main>
 
       <SiteFooter />

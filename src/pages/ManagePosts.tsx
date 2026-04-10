@@ -15,9 +15,9 @@ const ManagePosts = () => {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="font-serif text-2xl font-bold">Manage Posts</h1>
+        <h1 className="font-serif text-2xl font-bold">Menaxho Postimet</h1>
         <Link to="/admin/create">
-          <Button size="sm"><PenSquare className="h-4 w-4 mr-1" /> New Post</Button>
+          <Button size="sm"><PenSquare className="h-4 w-4 mr-1" /> Postim i Ri</Button>
         </Link>
       </div>
 
@@ -26,11 +26,11 @@ const ManagePosts = () => {
           <table className="w-full text-sm">
             <thead className="bg-secondary">
               <tr>
-                <th className="text-left p-3 font-medium">Title</th>
-                <th className="text-left p-3 font-medium hidden md:table-cell">Category</th>
-                <th className="text-left p-3 font-medium hidden md:table-cell">Author</th>
-                <th className="text-left p-3 font-medium hidden sm:table-cell">Date</th>
-                <th className="text-right p-3 font-medium">Actions</th>
+                <th className="text-left p-3 font-medium">Titulli</th>
+                <th className="text-left p-3 font-medium hidden md:table-cell">Kategoria</th>
+                <th className="text-left p-3 font-medium hidden md:table-cell">Autori</th>
+                <th className="text-left p-3 font-medium hidden sm:table-cell">Data</th>
+                <th className="text-right p-3 font-medium">Veprimet</th>
               </tr>
             </thead>
             <tbody>
@@ -38,14 +38,14 @@ const ManagePosts = () => {
                 <tr key={article.id} className="border-t hover:bg-secondary/50 transition-colors">
                   <td className="p-3">
                     <div className="flex items-center gap-2">
-                      {article.isBreaking && <Badge variant="destructive" className="text-[10px]">Breaking</Badge>}
+                      {article.isBreaking && <Badge variant="destructive" className="text-[10px]">E Fundit</Badge>}
                       <span className="font-medium line-clamp-1">{article.title}</span>
                     </div>
                   </td>
                   <td className="p-3 capitalize hidden md:table-cell text-muted-foreground">{article.category}</td>
                   <td className="p-3 hidden md:table-cell text-muted-foreground">{article.author.name}</td>
                   <td className="p-3 hidden sm:table-cell text-muted-foreground">
-                    {new Date(article.publishedAt).toLocaleDateString()}
+                    {new Date(article.publishedAt).toLocaleDateString("sq-AL")}
                   </td>
                   <td className="p-3 text-right">
                     <div className="flex items-center justify-end gap-1">
