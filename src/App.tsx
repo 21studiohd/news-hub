@@ -12,6 +12,7 @@ import ManagePosts from "./pages/ManagePosts";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import UserRoles from "./pages/UserRoles";
 import CreatePost from "./pages/CreatePost";
+import MediaLibraryPage from "./pages/MediaLibraryPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<ManagePosts />} />
               <Route path="create" element={<CreatePost />} />
+              <Route path="media" element={<MediaLibraryPage />} />
               <Route path="analytics" element={<AnalyticsPage />} />
               <Route path="users" element={<UserRoles />} />
             </Route>

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, Menu, X, ChevronDown } from "lucide-react";
 import { categories } from "@/data/mock-data";
-import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,7 +15,6 @@ export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   return (
@@ -69,7 +67,7 @@ export function SiteHeader() {
           </Link>
         </nav>
 
-        {/* Right side */}
+        {/* Right side - search only, no login */}
         <div className="flex items-center gap-2">
           {searchOpen ? (
             <div className="flex items-center border rounded-md px-2 bg-secondary">
@@ -89,16 +87,6 @@ export function SiteHeader() {
             <button onClick={() => setSearchOpen(true)} className="p-2" aria-label="Kërko">
               <Search className="h-5 w-5" />
             </button>
-          )}
-
-          {isAuthenticated ? (
-            <Link to="/admin">
-              <Button variant="outline" size="sm" className="text-xs">Paneli</Button>
-            </Link>
-          ) : (
-            <Link to="/admin/login">
-              <Button variant="ghost" size="sm" className="text-xs">Hyr</Button>
-            </Link>
           )}
         </div>
       </div>
