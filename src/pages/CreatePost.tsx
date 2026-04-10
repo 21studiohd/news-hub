@@ -22,7 +22,7 @@ const CreatePost = () => {
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [excerpt, setExcerpt] = useState("");
-  const [category, setCategory] = useState<Category>("tech");
+  const [category, setCategory] = useState<Category>("teknologji");
   const [imageUrl, setImageUrl] = useState("");
   const [body, setBody] = useState("");
   const [seoTitle, setSeoTitle] = useState("");
