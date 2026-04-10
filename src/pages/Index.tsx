@@ -26,8 +26,8 @@ const Index = () => {
                 <ArticleCard article={breakingArticles[0]} variant="hero" />
               </div>
               <div className="flex flex-col gap-0">
-                <h3 className="font-serif font-bold text-sm uppercase tracking-wider text-muted-foreground mb-2 px-1">
-                  Top Stories
+            <h3 className="font-serif font-bold text-sm uppercase tracking-wider text-muted-foreground mb-2 px-1">
+                  Lajmet Kryesore
                 </h3>
                 {mockArticles.slice(1, 5).map((a) => (
                   <ArticleCard key={a.id} article={a} variant="compact" />
@@ -46,7 +46,7 @@ const Index = () => {
                 !activeCategory ? "bg-primary text-primary-foreground border-primary" : "border-border text-muted-foreground hover:text-foreground"
               }`}
             >
-              All
+              Të gjitha
             </a>
             {categories.map((cat) => (
               <a

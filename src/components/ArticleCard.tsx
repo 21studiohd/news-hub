@@ -4,10 +4,10 @@ import { Clock } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const categoryColorMap: Record<Category, string> = {
-  politics: "bg-category-politics",
-  tech: "bg-category-tech",
-  lifestyle: "bg-category-lifestyle",
-  business: "bg-category-business",
+  politike: "bg-category-politics",
+  teknologji: "bg-category-tech",
+  jete: "bg-category-lifestyle",
+  biznes: "bg-category-business",
   opinion: "bg-category-opinion",
 };
 
