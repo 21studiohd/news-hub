@@ -3,7 +3,7 @@ import { mockArticles, categories, Category } from "@/data/mock-data";
 import { ArticleCard } from "@/components/ArticleCard";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { AdBanner } from "@/components/AdBanner";
+
 
 const Index = () => {
   const [searchParams] = useSearchParams();
@@ -37,11 +37,6 @@ const Index = () => {
             </div>
           </section>
         )}
-
-        {/* Ad Banner - Top */}
-        <div className="container mt-6">
-          <AdBanner slot="header" />
-        </div>
 
         {/* Category filter bar */}
         <section className="container mt-6">
@@ -80,11 +75,6 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Ad Banner - Mid */}
-        <div className="container mb-6">
-          <AdBanner slot="in-article" />
-        </div>
-
         {/* More articles */}
         <section className="container mb-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -97,10 +87,6 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Ad Banner - Bottom */}
-        <div className="container mb-8">
-          <AdBanner slot="footer" />
-        </div>
       </main>
 
       <SiteFooter />
