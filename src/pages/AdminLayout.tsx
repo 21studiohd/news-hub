@@ -77,19 +77,16 @@ function AdminSidebar() {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton onClick={logout} className="hover:bg-sidebar-accent/50">
+                <SidebarMenuButton onClick={() => { void logout(); }} className="hover:bg-sidebar-accent/50">
                   <LogOut className="mr-2 h-4 w-4" />
                   {!collapsed && <span>Dil</span>}
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
             {!collapsed && user && (
-              <div className="flex items-center gap-2 p-3 mt-2 border-t">
-                <img src={user.avatar} alt={user.name} className="w-8 h-8 rounded-full object-cover" />
-                <div className="text-xs">
-                  <div className="font-medium">{user.name}</div>
-                  <div className="text-muted-foreground capitalize">{user.role}</div>
-                </div>
+              <div className="p-3 mt-2 border-t text-xs">
+                <div className="font-medium truncate">{user.email}</div>
+                <div className="text-muted-foreground capitalize">{user.role}</div>
               </div>
             )}
           </SidebarGroupContent>

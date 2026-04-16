@@ -30,7 +30,7 @@ const AdminLogin = () => {
       return;
     }
     setSubmitting(true);
-    const result = login(email, password);
+    const result = await login(email, password);
     setSubmitting(false);
     if (result.ok) {
       navigate(from, { replace: true });
