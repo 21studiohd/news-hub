@@ -1,20 +1,26 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { User, mockUsers } from "@/data/mock-data";
+import {
+  User as FirebaseUser,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "@/lib/firebase";
+import { Role } from "@/data/mock-data";
 
-// Mock credentials — replace with Firebase Auth (signInWithEmailAndPassword) later.
-// Each demo user has a known password so the login flow now requires both fields.
-const MOCK_PASSWORDS: Record<string, string> = {
-  "arben@tetova1.com": "superadmin123",
-  "elona@tetova1.com": "editor123",
-  "driton@tetova1.com": "editor123",
-};
-
-const SESSION_KEY = "tetova1_auth_user";
+export interface AuthUser {
+  id: string;
+  email: string;
+  name: string;
+  role: Role;
+  avatar?: string;
+}
 
 interface AuthContextType {
-  user: User | null;
-  login: (email: string, password: string) => { ok: boolean; error?: string };
-  logout: () => void;
+  user: AuthUser | null;
+  login: (email: string, password: string) => Promise<{ ok: boolean; error?: string }>;
+  logout: () => Promise<void>;
   isSuperadmin: boolean;
   isEditor: boolean;
   isAuthenticated: boolean;
@@ -23,46 +29,79 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+async function loadProfile(fbUser: FirebaseUser): Promise<AuthUser | null> {
+  try {
+    const snap = await getDoc(doc(db, "users", fbUser.uid));
+    if (!snap.exists()) {
+      return null;
+    }
+    const data = snap.data() as { name?: string; role?: Role; avatar?: string };
+    if (data.role !== "superadmin" && data.role !== "editor") {
+      return null;
+    }
+    return {
+      id: fbUser.uid,
+      email: fbUser.email || "",
+      name: data.name || fbUser.email || "Përdorues",
+      role: data.role,
+      avatar: data.avatar,
+    };
+  } catch (err) {
+    console.error("Failed to load user profile:", err);
+    return null;
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Restore session from localStorage (Firebase Auth will replace this with onAuthStateChanged)
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(SESSION_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw) as User;
-        if (mockUsers.find((u) => u.id === parsed.id)) {
-          setUser(parsed);
+    const unsub = onAuthStateChanged(auth, async (fbUser) => {
+      if (fbUser) {
+        const profile = await loadProfile(fbUser);
+        if (!profile) {
+          // User exists in Auth but has no valid role doc — sign them out.
+          await signOut(auth);
+          setUser(null);
+        } else {
+          setUser(profile);
         }
+      } else {
+        setUser(null);
       }
-    } catch {
-      // ignore
-    }
-    setLoading(false);
+      setLoading(false);
+    });
+    return () => unsub();
   }, []);
 
-  const login = (email: string, password: string) => {
-    const normalizedEmail = email.trim().toLowerCase();
-    const found = mockUsers.find((u) => u.email.toLowerCase() === normalizedEmail);
-    if (!found) {
-      return { ok: false, error: "Email-i nuk u gjet." };
+  const login = async (email: string, password: string) => {
+    try {
+      const cred = await signInWithEmailAndPassword(auth, email.trim(), password);
+      const profile = await loadProfile(cred.user);
+      if (!profile) {
+        await signOut(auth);
+        return { ok: false, error: "Llogaria juaj nuk ka leje për të hyrë në panel." };
+      }
+      setUser(profile);
+      return { ok: true };
+    } catch (err: unknown) {
+      const code = (err as { code?: string })?.code || "";
+      let message = "Hyrja dështoi. Provoni përsëri.";
+      if (code === "auth/invalid-credential" || code === "auth/wrong-password" || code === "auth/user-not-found") {
+        message = "Email ose fjalëkalim i pasaktë.";
+      } else if (code === "auth/too-many-requests") {
+        message = "Shumë përpjekje. Provoni më vonë.";
+      } else if (code === "auth/invalid-email") {
+        message = "Email i pavlefshëm.";
+      }
+      return { ok: false, error: message };
     }
-    if (MOCK_PASSWORDS[found.email] !== password) {
-      return { ok: false, error: "Fjalëkalimi është i pasaktë." };
-    }
-    if (found.role !== "superadmin" && found.role !== "editor") {
-      return { ok: false, error: "Nuk keni leje për të hyrë." };
-    }
-    setUser(found);
-    localStorage.setItem(SESSION_KEY, JSON.stringify(found));
-    return { ok: true };
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await signOut(auth);
     setUser(null);
-    localStorage.removeItem(SESSION_KEY);
   };
 
   return (
