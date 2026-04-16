@@ -1,18 +1,11 @@
 import { useState } from "react";
 import { useLocation, useNavigate, Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { mockUsers } from "@/data/mock-data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Eye, EyeOff, Lock } from "lucide-react";
-
-const DEMO_PASSWORDS: Record<string, string> = {
-  "arben@tetova1.com": "superadmin123",
-  "elona@tetova1.com": "editor123",
-  "driton@tetova1.com": "editor123",
-};
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -44,12 +37,6 @@ const AdminLogin = () => {
     } else {
       setError(result.error || "Hyrja dështoi.");
     }
-  };
-
-  const fillDemo = (demoEmail: string) => {
-    setEmail(demoEmail);
-    setPassword(DEMO_PASSWORDS[demoEmail] || "");
-    setError("");
   };
 
   return (
@@ -102,24 +89,6 @@ const AdminLogin = () => {
               {submitting ? "Po hyhet..." : "Hyr"}
             </Button>
           </form>
-          <div className="mt-6 border-t pt-4">
-            <p className="text-xs text-muted-foreground mb-2">Llogaritë demo (klikoni për t'i plotësuar):</p>
-            {mockUsers.map((u) => (
-              <button
-                key={u.id}
-                type="button"
-                onClick={() => fillDemo(u.email)}
-                className="flex items-center gap-2 w-full p-2 text-left text-sm hover:bg-secondary rounded transition-colors"
-              >
-                <img src={u.avatar} alt={u.name} className="w-6 h-6 rounded-full object-cover" />
-                <div className="flex-1">
-                  <span className="font-medium">{u.name}</span>
-                  <span className="text-xs text-muted-foreground ml-2 capitalize">({u.role})</span>
-                </div>
-                <span className="text-[10px] text-muted-foreground font-mono">{DEMO_PASSWORDS[u.email]}</span>
-              </button>
-            ))}
-          </div>
         </CardContent>
       </Card>
     </div>
