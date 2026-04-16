@@ -87,10 +87,6 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Ad Banner - Bottom */}
-        <div className="container mb-8">
-          <AdBanner slot="footer" />
-        </div>
       </main>
 
       <SiteFooter />

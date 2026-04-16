@@ -14,6 +14,7 @@ import UserRoles from "./pages/UserRoles";
 import CreatePost from "./pages/CreatePost";
 import MediaLibraryPage from "./pages/MediaLibraryPage";
 import NotFound from "./pages/NotFound";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -28,12 +29,12 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/article/:slug" element={<ArticlePage />} />
             <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin" element={<AdminLayout />}>
+            <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
               <Route index element={<ManagePosts />} />
               <Route path="create" element={<CreatePost />} />
               <Route path="media" element={<MediaLibraryPage />} />
               <Route path="analytics" element={<AnalyticsPage />} />
-              <Route path="users" element={<UserRoles />} />
+              <Route path="users" element={<ProtectedRoute roles={["superadmin"]}><UserRoles /></ProtectedRoute>} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
