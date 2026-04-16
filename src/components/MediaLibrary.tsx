@@ -1,32 +1,10 @@
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ImageIcon, Upload, Trash2, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
-
-export interface MediaItem {
-  id: string;
-  name: string;
-  url: string;
-  addedAt: string;
-}
-
-// Mock persistent storage (replace with Firebase Storage later)
-const STORAGE_KEY = "tetova1_media_library";
-
-function getStoredMedia(): MediaItem[] {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveMedia(items: MediaItem[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-}
+import { compressImage, fileToDataUrl, formatBytes } from "@/lib/imageCompression";
+import { MediaItem, addMediaItem, getStoredMedia, makeMediaId, removeMediaItem } from "@/lib/mediaStore";
 
 interface MediaLibraryProps {
   onSelect?: (url: string) => void;
@@ -37,46 +15,49 @@ export function MediaLibrary({ onSelect, triggerLabel = "Biblioteka e Mediave" }
   const [open, setOpen] = useState(false);
   const [media, setMedia] = useState<MediaItem[]>(getStoredMedia);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
+  const refresh = () => setMedia(getStoredMedia());
 
-    Array.from(files).forEach((file) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    setUploading(true);
+    toast.loading(`Po komprimohen ${files.length} imazh${files.length > 1 ? "e" : ""}...`, { id: "lib-upload" });
+
+    for (const file of Array.from(files)) {
       if (!file.type.startsWith("image/")) {
         toast.error(`${file.name} nuk është imazh i vlefshëm.`);
-        return;
+        continue;
       }
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        const newItem: MediaItem = {
-          id: `media_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+      try {
+        const compressed = await compressImage(file);
+        const dataUrl = await fileToDataUrl(compressed);
+        addMediaItem({
+          id: makeMediaId(),
           name: file.name,
-          url: reader.result as string,
+          url: dataUrl,
+          size: compressed.size,
+          originalSize: file.size,
           addedAt: new Date().toISOString(),
-        };
-        setMedia((prev) => {
-          const updated = [newItem, ...prev];
-          saveMedia(updated);
-          return updated;
         });
-        toast.success(`${file.name} u ngarkua me sukses!`);
-      };
-      reader.readAsDataURL(file);
-    });
+      } catch (err) {
+        console.error(err);
+        toast.error(`${file.name} dështoi.`);
+      }
+    }
 
-    // Reset input
+    refresh();
+    setUploading(false);
+    toast.success("Imazhet u ruajtën në bibliotekë!", { id: "lib-upload" });
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const handleDelete = (id: string) => {
-    setMedia((prev) => {
-      const updated = prev.filter((m) => m.id !== id);
-      saveMedia(updated);
-      return updated;
-    });
+    removeMediaItem(id);
+    refresh();
     toast.success("Imazhi u fshi.");
   };
 
@@ -96,9 +77,9 @@ export function MediaLibrary({ onSelect, triggerLabel = "Biblioteka e Mediave" }
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={(o) => { setOpen(o); if (o) refresh(); }}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" type="button">
+        <Button variant="outline" size="sm" type="button" className="h-8">
           <ImageIcon className="h-4 w-4 mr-1" /> {triggerLabel}
         </Button>
       </DialogTrigger>
@@ -116,11 +97,11 @@ export function MediaLibrary({ onSelect, triggerLabel = "Biblioteka e Mediave" }
             className="hidden"
             onChange={handleFileUpload}
           />
-          <Button onClick={() => fileInputRef.current?.click()} size="sm">
-            <Upload className="h-4 w-4 mr-1" /> Ngarko Imazhe
+          <Button onClick={() => fileInputRef.current?.click()} size="sm" disabled={uploading}>
+            <Upload className="h-4 w-4 mr-1" /> {uploading ? "Po ngarkohet..." : "Ngarko Imazhe"}
           </Button>
           <span className="text-xs text-muted-foreground">
-            {media.length} imazhe në bibliotekë
+            {media.length} imazhe · komprimohen automatikisht
           </span>
         </div>
 
@@ -129,7 +110,7 @@ export function MediaLibrary({ onSelect, triggerLabel = "Biblioteka e Mediave" }
             <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
               <ImageIcon className="h-12 w-12 mb-3 opacity-30" />
               <p className="text-sm">Nuk ka imazhe ende.</p>
-              <p className="text-xs">Ngarko imazhe nga pajisja jote.</p>
+              <p className="text-xs">Ngarko imazhe nga pajisja ose kamera.</p>
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 p-1">
@@ -144,8 +125,14 @@ export function MediaLibrary({ onSelect, triggerLabel = "Biblioteka e Mediave" }
                     className="w-full h-full object-cover cursor-pointer hover:opacity-80 transition-opacity"
                     onClick={() => handleSelect(item)}
                   />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <p className="text-[10px] text-white truncate">{item.name}</p>
+                    <p className="text-[9px] text-white/70">
+                      {formatBytes(item.size)}
+                      {item.originalSize && item.originalSize > item.size && (
+                        <> · −{Math.round((1 - item.size / item.originalSize) * 100)}%</>
+                      )}
+                    </p>
                     <div className="flex gap-1 mt-1">
                       <Button
                         variant="ghost"
